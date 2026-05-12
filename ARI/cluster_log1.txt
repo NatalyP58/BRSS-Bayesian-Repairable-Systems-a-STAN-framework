@@ -1,0 +1,34 @@
+starting worker pid=25564 on localhost:11950 at 01:42:28.858
+starting worker pid=24504 on localhost:11950 at 01:42:28.984
+starting worker pid=21824 on localhost:11950 at 01:42:29.111
+starting worker pid=27384 on localhost:11950 at 01:45:48.175
+starting worker pid=16312 on localhost:11950 at 01:45:48.298
+starting worker pid=12180 on localhost:11950 at 01:45:48.411
+Error en unserialize(node$con): error al leer desde conexión
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error en unserialize(node$con): error al leer desde conexión
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Ejecución interrumpida
+Ejecución interrumpida
+Ejecución interrumpida
+starting worker pid=21240 on localhost:11950 at 01:46:34.867
+starting worker pid=25812 on localhost:11950 at 01:46:35.001
+starting worker pid=24620 on localhost:11950 at 01:46:35.131
+starting worker pid=26248 on localhost:11950 at 01:49:05.107
+starting worker pid=23712 on localhost:11950 at 01:49:05.238
+starting worker pid=8768 on localhost:11950 at 01:49:05.352
+starting worker pid=18240 on localhost:11504 at 20:29:57.277
+starting worker pid=27384 on localhost:11504 at 20:29:57.400
+starting worker pid=28300 on localhost:11504 at 20:29:57.517
+starting worker pid=4948 on localhost:11504 at 20:33:08.587
+starting worker pid=10116 on localhost:11504 at 20:33:08.710
+starting worker pid=14220 on localhost:11504 at 20:33:08.832
+starting worker pid=27312 on localhost:11504 at 20:37:42.978
+starting worker pid=12204 on localhost:11504 at 20:37:43.109
+starting worker pid=11380 on localhost:11504 at 20:37:43.245
+Error en unserialize(node$con): error al leer desde conexión
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error en unserialize(node$con): error al leer desde conexión
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Ejecución interrumpida
+Ejecución interrumpida

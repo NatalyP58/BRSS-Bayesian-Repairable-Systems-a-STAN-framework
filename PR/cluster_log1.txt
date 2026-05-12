@@ -1,0 +1,36 @@
+starting worker pid=23436 on localhost:11550 at 20:48:40.322
+starting worker pid=27316 on localhost:11550 at 20:48:40.442
+starting worker pid=12796 on localhost:11550 at 20:48:40.568
+Error en unserialize(node$con): formato de entrada desconocido
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Ejecución interrumpida
+starting worker pid=25104 on localhost:11550 at 20:49:48.978
+starting worker pid=26376 on localhost:11550 at 20:49:49.100
+starting worker pid=26388 on localhost:11550 at 20:49:49.214
+starting worker pid=15004 on localhost:11550 at 20:51:00.529
+starting worker pid=26792 on localhost:11550 at 20:51:00.664
+starting worker pid=16324 on localhost:11550 at 20:51:00.777
+Error en unserialize(node$con): error al leer desde conexión
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Ejecución interrumpida
+Error en unserialize(node$con): error al leer desde conexión
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Ejecución interrumpida
+starting worker pid=26852 on localhost:11550 at 20:52:04.941
+starting worker pid=25404 on localhost:11550 at 20:52:05.060
+starting worker pid=8980 on localhost:11550 at 20:52:05.168
+starting worker pid=23548 on localhost:11550 at 20:52:50.620
+starting worker pid=24224 on localhost:11550 at 20:52:50.739
+starting worker pid=14056 on localhost:11550 at 20:52:50.852
+starting worker pid=18620 on localhost:11938 at 19:29:53.765
+starting worker pid=15212 on localhost:11938 at 19:29:53.893
+starting worker pid=7820 on localhost:11938 at 19:29:54.012
+starting worker pid=28392 on localhost:11938 at 19:30:36.457
+starting worker pid=26596 on localhost:11938 at 19:30:36.576
+starting worker pid=23404 on localhost:11938 at 19:30:36.692
+starting worker pid=12512 on localhost:11938 at 19:36:47.916
+starting worker pid=22204 on localhost:11938 at 19:36:48.036
+starting worker pid=19228 on localhost:11938 at 19:36:48.157
+starting worker pid=8316 on localhost:11938 at 19:39:58.685
+starting worker pid=29100 on localhost:11938 at 19:39:58.823
+starting worker pid=29576 on localhost:11938 at 19:39:58.959

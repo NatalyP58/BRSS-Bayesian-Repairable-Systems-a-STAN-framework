@@ -1,6 +1,6 @@
-# Repairable Systems Models – PLP Implementation
+# Repairable Systems Models – ARAM Implementation
 
-This repository contains the implementation of the **Power Law Process (PLP)** model developed in the manuscript:
+This repository contains the implementation of the **Arithmetic Reduction of Age Modified (ARAM)** model developed in the manuscript:
 
 **A Bayesian Approach to Repairable Systems Models**  
 **Author:** Nataly Martinez Riascos  
@@ -19,7 +19,7 @@ The goal of this project is to provide a **reproducible and modular framework** 
 
 The project is organized into three main modules:
 
-PLP/  
+ARAM/  
 ├── Functions/  
 ├── Simulation/  
 ├── Application/  
@@ -31,11 +31,12 @@ PLP/
 
 Functions/
 
-This folder contains the **core implementation of the PLP model**.
+This folder contains the **core implementation of the ARAM model**.
 
 Includes:
 
 - model definitions (intensity, cumulative intensity, likelihood),
+- virtual-age transformation functions,
 - data simulation functions,
 - frequentist estimation,
 - Bayesian estimation (independent and dependent priors),
@@ -71,7 +72,7 @@ This module is used to **validate the methodology**.
 
 Application/
 
-This module applies the PLP model to **real-world data** (sugarcane harvester dataset).
+This module applies the ARAM model to **real-world data** (sugarcane harvester dataset).
 
 It includes:
 
@@ -105,23 +106,36 @@ A typical workflow is:
 
 ## Statistical model
 
-The PLP model assumes:
+The ARAM model assumes:
 
-- **minimal repair**, meaning that after each failure the system continues operating without improving its condition,
-- the failure intensity evolves over time according to a power law,
-- the intensity depends on the **global time** since the start of observation.
+- a repair mechanism based on **modified virtual age**,
+- the repair effect acts through a transformation function \( h(\theta) \),
+- both beneficial and detrimental repair effects are allowed,
+- the failure intensity evolves according to a modified age structure.
 
-The intensity function is given by:
+The conditional intensity function is given by:
 
 \[
-\lambda_{PLP}(t) = \mu_T \frac{\beta}{T} t^{\beta - 1},
+\lambda_{ARAM}(t \mid H_{t^-})
+=
+\sum_{i=1}^{n+1}
+\frac{\mu_T}{T}
+\beta
+\left(
+t -
+\operatorname{sign}(\beta-1)
+\, h(\theta)\,
+t_{i-1}
+\right)^{\beta-1}
+\mathbb{I}(t_{i-1}<t\le t_i),
 \]
 
 where:
 
-- \( \beta > 0 \) controls the trend of failures,
+- \( \beta > 0 \) controls the trend behavior,
 - \( \mu_T > 0 \) is a scale parameter,
-- \( T \) is the truncation horizon.
+- \( \theta \in [-1,1] \) governs the repair effect,
+- \( h(\theta) \) modifies the system’s effective age after repair.
 
 ---
 
@@ -161,18 +175,34 @@ Both Bayesian models are implemented in **Stan** using Hamiltonian Monte Carlo (
 
 ## Notes
 
-- The PLP model captures **aging or improvement trends** in repairable systems:
-  - \( \beta > 1 \): increasing failure rate (deterioration),
-  - \( \beta = 1 \): constant rate (homogeneous Poisson process),
-  - \( \beta < 1 \): decreasing rate (improvement).
+- The ARAM model extends the classical ARA framework by allowing greater flexibility in the repair effect.
+
+- Unlike classical ARA models restricted to beneficial repairs, ARAM allows:
+  - beneficial repair,
+  - minimal repair,
+  - harmful repair.
+
+- The repair effect is governed by \( \theta \):
+  - \( \theta = 0 \): minimal repair (ABAO),
+  - \( 0 < \theta < 1 \): imperfect beneficial repair,
+  - \( \theta = 1 \): perfect repair (AGAN),
+  - \( \theta < 0 \): harmful repair.
+
+- The transformation function \( h(\theta) \) ensures model stability while preserving the interpretation of the repair effect.
+
 - The off-season adjustment is critical in the application dataset to avoid bias due to long inactivity periods.
+
+- Numerical stability should be monitored when:
+  - \( \theta \) is close to its boundaries,
+  - transformed virtual ages approach zero.
+
 - The implementation is designed for **reproducibility and methodological clarity**, consistent with the manuscript.
 
 ---
 
 ## Purpose of this repository
 
-This repository provides a **complete and reproducible implementation** of the PLP model, including:
+This repository provides a **complete and reproducible implementation** of the ARAM model, including:
 
 - theoretical formulation,
 - simulation-based validation,

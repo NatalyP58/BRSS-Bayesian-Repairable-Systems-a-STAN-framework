@@ -1,12 +1,12 @@
-# Application Module for the Arithmetic Reduction of Age (ARA) Model
+# Application Module for the Arithmetic Reduction of Age Modified (ARAM) Model
 
-This folder contains the application workflow for the **Arithmetic Reduction of Age (ARA)** model using the sugarcane harvester dataset, as presented in:
+This folder contains the application workflow for the **Arithmetic Reduction of Age Modified (ARAM)** model using the sugarcane harvester dataset, as presented in:
 
 **A Bayesian Approach to Repairable Systems Models**  
 **Author:** Nataly Martinez Riascos  
 **Date:** April 15, 2026
 
-The goal of this module is to illustrate how the ARA model can be applied to real failure data after preprocessing, adjustment of non-operational periods, and model fitting under frequentist and Bayesian approaches.
+The goal of this module is to illustrate how the ARAM model can be applied to real failure data after preprocessing, adjustment of non-operational periods, and model fitting under frequentist and Bayesian approaches.
 
 ---
 
@@ -18,7 +18,7 @@ This application script performs the following steps:
 2. Select one vehicle for analysis  
 3. Build failure-time vectors for the most frequent failure modes  
 4. Adjust the time scale by removing off-season periods  
-5. Fit the ARA model using:
+5. Fit the ARAM model using:
    - frequentist estimation,
    - Bayesian estimation with independent priors,
    - Bayesian estimation with dependent priors  
@@ -28,9 +28,9 @@ This application script performs the following steps:
 
 ## Main script
 
-### `ara_application_sugarcane.R`
+### `aram_application_sugarcane.R`
 
-This is the main application script for the ARA model.
+This is the main application script for the ARAM model.
 
 ---
 
@@ -39,7 +39,7 @@ This is the main application script for the ARA model.
 The script reads the application dataset:
 
 ```r
-data <- read.csv("Application/sugarcane_data.csv", sep = ";")
+data <- read.csv("application/sugarcane_data.csv", sep = ";")
 ```
 
 ---
@@ -49,16 +49,16 @@ data <- read.csv("Application/sugarcane_data.csv", sep = ";")
 This script relies on several functions defined in external files.  
 Below is a concise description of each function to allow standalone use of this module.
 
-### Core ARA functions
+### Core ARAM functions
 
-- `lambda_ARA(t, param, time_trunc)`  
-  Computes the conditional intensity function of the ARA model.
+- `lambda_ARAM(t, param, time_trunc)`  
+  Computes the conditional intensity function of the ARAM model.
 
-- `Lambda_ARA(param, time_trunc)`  
+- `Lambda_ARAM(param, time_trunc)`  
   Computes the cumulative intensity evaluated at the truncation time.
 
-- `log_like_ARA(param, time, time_trunc)`  
-  Computes the log-likelihood of the ARA model for multiple systems.
+- `log_like_ARAM(param, time, time_trunc)`  
+  Computes the log-likelihood of the ARAM model for multiple systems.
 
 ---
 
@@ -87,7 +87,7 @@ Below is a concise description of each function to allow standalone use of this 
 ### Model comparison
 
 - `calc_AIC_BIC(results, times, time_trunc)`  
-  Computes AIC and BIC from the ARA log-likelihood evaluated at point estimates.
+  Computes AIC and BIC from the ARAM log-likelihood evaluated at point estimates.
 
 - `calc_DIC(fit_stan, times, time_trunc)`  
   Computes the Deviance Information Criterion using posterior samples.
@@ -100,11 +100,11 @@ All functions are loaded via:
 
 ```r
 source_files <- c(
-  file.path("functions", "ara_model_functions.R"),
-  file.path("functions", "ara_stan_models.R"),
-  file.path("functions", "ara_frequentist_fit.R"),
-  file.path("functions", "ara_bayes_dependent_fit.R"),
-  file.path("functions", "ara_bayes_independent_fit.R")
+  file.path("functions", "aram_model_functions.R"),
+  file.path("functions", "aram_stan_models.R"),
+  file.path("functions", "aram_frequentist_fit.R"),
+  file.path("functions", "aram_bayes_dependent_fit.R"),
+  file.path("functions", "aram_bayes_independent_fit.R")
 )
 ```
 
@@ -112,13 +112,19 @@ source_files <- c(
 
 ## Notes
 
-- The ARA (Arithmetic Reduction of Age) model modifies the system’s virtual age after each repair, allowing the repair effect to act directly on the accumulated age of the system.
+- The ARAM (Arithmetic Reduction of Age Modified) model extends the classical ARA framework by allowing both beneficial and detrimental repair effects through a modified virtual-age structure.
+
+- Unlike the classical ARA model, ARAM allows the repair parameter \( \theta \in [-1,1] \), providing greater flexibility for modeling practical repairable-system behavior.
+
+- The model incorporates the transformation function \( h(\theta) \), which modifies the system’s effective age while preserving the interpretation of the repair effect.
 
 - The parameter \( \theta \in [-1,1] \) governs the repair effect:
   - \( \theta = 0 \): minimal repair (ABAO),
-  - \( 0 < \theta < 1 \): imperfect repair,
+  - \( 0 < \theta < 1 \): imperfect beneficial repair,
   - \( \theta = 1 \): perfect repair (AGAN),
   - \( \theta < 0 \): harmful repair.
+
+- The function \( h(\theta) \) is constructed to ensure model stability and depends on the value of the trend parameter \( \beta \).
 
 - The application is based on multiple subsystems (failure modes) observed over a common time horizon.
 
@@ -128,7 +134,7 @@ source_files <- c(
 
 - Model comparison metrics (AIC, BIC, DIC) are used to assess relative model fit.
 
-- Numerical stability should be monitored when \( \theta \) is close to its boundary values.
+- Numerical stability should be monitored when \( \theta \) approaches its boundary values or when the transformed virtual age becomes close to zero.
 
 - The implementation supports both independent and correlated prior structures for Bayesian inference.
 

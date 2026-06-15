@@ -5,8 +5,8 @@
 # ------------------------------------------------------------
 # File: PLP Bayesian estimation with independent priors
 # ------------------------------------------------------------
-# This file implements Bayesian estimation for the Partial
-# Imperfect Repair (PLP) model using Stan under an
+# This file implements Bayesian estimation for the Power
+# Law Process (PLP) model using Stan under an
 # independent-prior specification.
 # ------------------------------------------------------------
 
@@ -22,8 +22,7 @@ options(mc.cores = parallel::detectCores())
 # Bayesian estimation for the PLP model with independent priors
 # ------------------------------------------------------------
 bayesian_estimation_ind <- function(time, time_trunc, beta_r = NULL, mu_T_r = NULL,
-                                    theta_r = NULL, tau, compiled_model = NULL,
-                                    simulation = TRUE, seed = NULL) {
+                                    compiled_model = NULL, simulation = TRUE, seed = NULL) {
   
   # If no compiled model is provided, use the global compiled object
   if (is.null(compiled_model)) {
@@ -34,8 +33,8 @@ bayesian_estimation_ind <- function(time, time_trunc, beta_r = NULL, mu_T_r = NU
   }
   
   # If simulation = TRUE, the true parameter values must be provided
-  if (simulation && (is.null(beta_r) || is.null(mu_T_r) || is.null(theta_r))) {
-    stop("If simulation = TRUE, you must provide the true values beta_r, mu_T_r, and theta_r.")
+  if (simulation && (is.null(beta_r) || is.null(mu_T_r))) {
+    stop("If simulation = TRUE, you must provide the true values beta_r, mu_T_r.")
   }
   
   # Flatten failure times and build index vectors for Stan
@@ -80,7 +79,6 @@ bayesian_estimation_ind <- function(time, time_trunc, beta_r = NULL, mu_T_r = NU
   samples   <- rstan::extract(fit)
   beta_est  <- samples$beta
   mu_T_est  <- samples$mu_T
-  theta_est <- samples$theta
   
   # Posterior point estimates
   estimate <- c(median(beta_est), median(mu_T_est))
@@ -92,9 +90,8 @@ bayesian_estimation_ind <- function(time, time_trunc, beta_r = NULL, mu_T_r = NU
     
     coverage <- c(
       as.integer(beta_hpd[1] <= beta_r & beta_r <= beta_hpd[2]),
-      as.integer(mu_T_hpd[1] <= mu_T_r & mu_T_r <= mu_T_hpd[2]),
-      
-    )
+      as.integer(mu_T_hpd[1] <= mu_T_r & mu_T_r <= mu_T_hpd[2])
+      )
   } else {
     coverage <- NULL
   }
